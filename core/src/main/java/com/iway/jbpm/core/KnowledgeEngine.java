@@ -70,8 +70,8 @@ public class KnowledgeEngine implements Startable {
     public void stop() {
     }
 
-    public Collection<org.drools.definition.process.Process> getProcesses() {
-        Collection<org.drools.definition.process.Process> re;
+    public Collection<Process> getProcesses() {
+        Collection<Process> re;
         try {
             lock.lock();
             re = knowledgeBase.getProcesses();

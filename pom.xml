@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.iway.jbpm</groupId>
-    <artifactId>core-demo</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>jbpm-demo-parent</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <repositories>
@@ -26,19 +26,43 @@
         <kernel.version>2.4.0-GA</kernel.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>knowledge-api</artifactId>
-            <version>5.4.0.Final</version>
-        </dependency>
+    <modules>
+        <module>core</module>
+        <module>leavecontrol</module>
+    </modules>
 
-        <dependency>
-            <groupId>org.exoplatform.kernel</groupId>
-            <artifactId>exo.kernel.container</artifactId>
-            <version>${kernel.version}</version>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!--
+            <dependency>
+                <groupId>org.drools</groupId>
+                <artifactId>knowledge-api</artifactId>
+                <version>5.4.0.Final</version>
+            </dependency>
+            -->
+            <dependency>
+                <groupId>org.jbpm</groupId>
+                <artifactId>jbpm-bpmn2</artifactId>
+                <version>5.4.0.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.portlet</groupId>
+                <artifactId>portlet-api</artifactId>
+                <version>2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.exoplatform.kernel</groupId>
+                <artifactId>exo.kernel.container</artifactId>
+                <version>${kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.iway.jbpm</groupId>
+                <artifactId>core-demo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
