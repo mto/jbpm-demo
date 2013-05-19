@@ -17,4 +17,19 @@
             <title>Leave Request Portlet</title>
         </portlet-info>
     </portlet>
+
+    <portlet>
+        <portlet-name>LRManagementPortlet</portlet-name>
+        <portlet-class>com.iway.jbpm.leavecontrol.LRManagementPortlet</portlet-class>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>LR Management Portlet</title>
+        </portlet-info>
+    </portlet>
+
 </portlet-app>

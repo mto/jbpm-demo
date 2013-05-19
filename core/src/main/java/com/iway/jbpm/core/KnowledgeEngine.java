@@ -8,6 +8,7 @@ import org.drools.definition.process.Process;
 import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.StatelessKnowledgeSession;
+import org.drools.runtime.process.ProcessInstance;
 import org.exoplatform.commons.utils.PropertyManager;
 import org.exoplatform.management.annotations.Impact;
 import org.exoplatform.management.annotations.ImpactType;
@@ -24,6 +25,7 @@ import org.picocontainer.Startable;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -82,12 +84,24 @@ public class KnowledgeEngine implements Startable {
     }
 
     @Managed
-    @ManagedDescription("List all processes currently available")
+    @ManagedDescription("List all process definitions")
     @Impact(ImpactType.READ)
     public String listProcesses() {
         StringBuilder b = new StringBuilder();
         for (Process p : getProcesses()) {
             b.append("ID: " + p.getId()).append(" Name: " + p.getName()).append("\n");
+        }
+        return b.toString();
+    }
+
+    //@Managed
+    //@ManagedDescription("List all process instances currently available")
+    //@Impact(ImpactType.READ)
+    public String listProcessInstances() {
+        StringBuilder b = new StringBuilder();
+        StatefulKnowledgeSession session = getStatefulSession();
+        for (ProcessInstance instance : session.getProcessInstances()) {
+            b.append("instanceID: " + instance.getId()).append("Process definition ID: " + instance.getProcessId()).append("\n");
         }
         return b.toString();
     }
@@ -110,9 +124,24 @@ public class KnowledgeEngine implements Startable {
     @Managed
     @ManagedDescription("Given a processID, execute relevant process!")
     @Impact(ImpactType.WRITE)
-    public void executeProcess(@ManagedDescription("ID of executed process") @ManagedName("processID") String processID) {
+    public long executeProcess(@ManagedDescription("ID of executed process") @ManagedName("processID") String processID) {
         StatefulKnowledgeSession session = getStatefulSession();
-        session.startProcess(processID);
+        return session.startProcess(processID).getId();
+    }
+
+    public long executeProcess(String processID, Map<String, Object> params) {
+        StatefulKnowledgeSession session = getStatefulSession();
+        return session.startProcess(processID, params).getId();
+    }
+
+    public void signalEvent(String type, Object payload) {
+        StatefulKnowledgeSession session = getStatefulSession();
+        session.signalEvent(type, payload);
+    }
+
+    public void signalEvent(String type, Object payload, long processInstanceID) {
+        StatefulKnowledgeSession session = getStatefulSession();
+        session.signalEvent(type, payload, processInstanceID);
     }
 
     private KnowledgeBase buildKnowledgeBase(String filePath) {
