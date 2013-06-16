@@ -11,40 +11,25 @@
     </parent>
 
     <groupId>com.iway.jbpm</groupId>
-    <artifactId>core-demo</artifactId>
+    <artifactId>iwayitems</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>knowledge-api</artifactId>
         </dependency>
-        -->
+        <!--
         <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-bpmn2</artifactId>
         </dependency>
+        -->
 
         <dependency>
-            <groupId>org.exoplatform.kernel</groupId>
-            <artifactId>exo.kernel.container</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.iway.jbpm</groupId>
-            <artifactId>iwayitems</artifactId>
+            <artifactId>domain</artifactId>
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

@@ -1,4 +1,4 @@
-package com.iway.jbpm.leavecontrol;
+package com.iway.jbpm.domain;
 
 /**
  * @author <a href="hoang281283@gmail.com">Minh Hoang TO</a>
@@ -12,7 +12,9 @@ public enum LRStatus {
 
     LEADER_REJECTED,
 
-    MANAGER_APPROVED,
+    FULLY_APPROVED,
 
-    MANAGER_REJECTED
+    MANAGER_REJECTED,
+
+    MAX_DAYS_EXCEEDED
 }

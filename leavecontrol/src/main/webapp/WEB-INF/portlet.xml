@@ -14,13 +14,13 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <portlet-info>
-            <title>Leave Request Portlet</title>
+            <title>Annual Leave Request</title>
         </portlet-info>
     </portlet>
 
     <portlet>
-        <portlet-name>LRManagementPortlet</portlet-name>
-        <portlet-class>com.iway.jbpm.leavecontrol.LRManagementPortlet</portlet-class>
+        <portlet-name>LRManagerViewPortlet</portlet-name>
+        <portlet-class>com.iway.jbpm.leavecontrol.LRManagerViewPortlet</portlet-class>
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
@@ -28,7 +28,35 @@
             <portlet-mode>help</portlet-mode>
         </supports>
         <portlet-info>
-            <title>LR Management Portlet</title>
+            <title>LR Management for Manager(s)</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>LRTeamLeaderViewPortlet</portlet-name>
+        <portlet-class>com.iway.jbpm.leavecontrol.LRTeamLeaderViewPortlet</portlet-class>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>LR Management for TeamLeader(s)</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>ProcessInstancesViewPortlet</portlet-name>
+        <portlet-class>com.iway.jbpm.monitor.LRProcessInstancesViewPortlet</portlet-class>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Active Process Instances</title>
         </portlet-info>
     </portlet>
 

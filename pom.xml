@@ -27,19 +27,19 @@
     </properties>
 
     <modules>
+        <module>domain</module>
         <module>core</module>
+        <module>iwayitems</module>
         <module>leavecontrol</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <!--
             <dependency>
                 <groupId>org.drools</groupId>
                 <artifactId>knowledge-api</artifactId>
                 <version>5.4.0.Final</version>
             </dependency>
-            -->
             <dependency>
                 <groupId>org.jbpm</groupId>
                 <artifactId>jbpm-bpmn2</artifactId>
@@ -56,8 +56,23 @@
                 <version>${kernel.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.exoplatform.kernel</groupId>
+                <artifactId>exo.kernel.component.common</artifactId>
+                <version>${kernel.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.iway.jbpm</groupId>
                 <artifactId>core-demo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.iway.jbpm</groupId>
+                <artifactId>domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.iway.jbpm</groupId>
+                <artifactId>iwayitems</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
