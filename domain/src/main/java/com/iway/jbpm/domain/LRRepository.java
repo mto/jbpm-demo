@@ -39,13 +39,13 @@ public class LRRepository {
     private void initStatements() throws Exception {
         findAllLRsStatement = connection.prepareStatement("SELECT * FROM leave_requests");
 
-        String findLRsOfEmployeeSQL = "SELECT * FROM leave_requests WHERE username='?'";
+        String findLRsOfEmployeeSQL = "SELECT * FROM leave_requests WHERE username=?";
         findLRsOfEmployeeStatement = connection.prepareStatement(findLRsOfEmployeeSQL);
 
         String createSQL = "INSERT INTO leave_requests(instance_id, username,start_date,end_date, number_of_days,status) VALUES(?,?,?,?,?,?)";
         createLRStatement = connection.prepareStatement(createSQL);
 
-        String updateSQL = "UPDATE leave_requests SET status='?' WHERE username='?' AND start_date='?' AND end_date='?' AND instance_id='?'";
+        String updateSQL = "UPDATE leave_requests SET status=? WHERE username=? AND start_date=? AND end_date=? AND instance_id=?";
         updateLRStatement = connection.prepareStatement(updateSQL);
     }
 
@@ -67,10 +67,10 @@ public class LRRepository {
 
     public synchronized void update(LeaveRequest lr) {
         try {
-            updateLRStatement.setString(1, lr.status.toString());
-            updateLRStatement.setString(2, lr.username);
-            updateLRStatement.setString(3, lr.startDate);
-            updateLRStatement.setString(4, lr.endDate);
+            updateLRStatement.setString(1, "'" + lr.status.toString() + "'");
+            updateLRStatement.setString(2, "'" + lr.username + "'");
+            updateLRStatement.setString(3, "'" + lr.startDate + "'");
+            updateLRStatement.setString(4, "'" + lr.endDate + "'");
             updateLRStatement.setLong(5, lr.instanceID);
 
             updateLRStatement.executeUpdate();
@@ -102,7 +102,7 @@ public class LRRepository {
     public synchronized List<LeaveRequest> getLeaveRequestsOfEmployee(String employee) {
         List<LeaveRequest> results = new LinkedList<LeaveRequest>();
         try {
-            findLRsOfEmployeeStatement.setString(1, employee);
+            findLRsOfEmployeeStatement.setString(1, "'" + employee + "'");
             ResultSet resultSet = findLRsOfEmployeeStatement.executeQuery();
             while (resultSet.next()) {
                 LeaveRequest lr = new LeaveRequest(resultSet.getLong("instance_id"), resultSet.getString("username"), resultSet.getString("start_date"), resultSet.getString("end_date"));
