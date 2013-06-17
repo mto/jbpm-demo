@@ -29,13 +29,13 @@ public class LeaveRequest {
         startDate = _startDate;
         endDate = _endDate;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
             Date start = dateFormat.parse(_startDate);
             Date end = dateFormat.parse(_endDate);
             numberOfDays = Math.max(1, (int) (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
         } catch (ParseException parseEx) {
+            parseEx.printStackTrace();
         }
         status = LRStatus.REQUEST_SENT;
-
     }
 }

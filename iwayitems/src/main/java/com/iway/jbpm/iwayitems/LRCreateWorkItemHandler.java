@@ -27,6 +27,7 @@ public class LRCreateWorkItemHandler implements WorkItemHandler {
     @Override
     public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
         LeaveRequest leaveRQ = (LeaveRequest)workItem.getParameter("leaveRQ");
+        System.out.println("Creating LR: " + leaveRQ.username + " , " + leaveRQ.startDate + " , " + leaveRQ.endDate);
         leaveRQ.instanceID = workItem.getProcessInstanceId();
 
         List<LeaveRequest> lrsOfCurrentEmployee = lrService.getLeaveRequestsOfEmployee(leaveRQ.username);
