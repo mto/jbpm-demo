@@ -11,7 +11,14 @@
     Collection<ProcessInstance> activeProcessInstances = (Collection<ProcessInstance>) renderRequest.getAttribute("activeProcessInstances");
 %>
 
-<table>
+<table border="1">
+    <tr>
+        <th>Process Instance ID</th>
+        <th>Process Definition Name</th>
+        <th>Current Node </th>
+        <th>Process Instance State</th>
+    </tr>
+
     <% for (ProcessInstance activeInstance : activeProcessInstances) {
         NodeInstance currentNode = ((NodeInstanceContainer) activeInstance).getNodeInstances().iterator().next();
     %>

@@ -5,7 +5,7 @@
 
 <portlet:defineObjects/>
 
-<div class="portlet-section-header">Welcome <%= renderRequest.getRemoteUser()%></div>
+<div class="portlet-section-header"><h3>Welcome: <i><%= renderRequest.getRemoteUser()%></i></h3></div>
 
 <br/>
 <br/>
@@ -23,14 +23,27 @@
     </form>
 </div>
 
-<div>Leave requests of <%= renderRequest.getRemoteUser()%></div>
+<hr>
+
+<div><h3>Leave requests of: <i><%= renderRequest.getRemoteUser()%></i></h3></div>
 <%
     List<LeaveRequest> lrs_of_employee = (List<LeaveRequest>) renderRequest.getAttribute("lrs_of_employee");
 %>
 
-<table>
+<table border="1">
+    <tr>
+        <th>Process InstanceID</th>
+        <th>Employee</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+    </tr>
+
     <% for (LeaveRequest lr : lrs_of_employee) {%>
     <tr id="<%=lr.instanceID%>">
+        <td>
+            <%= lr.instanceID%>
+        </td>
         <td>
             <%= lr.username%>
         </td>

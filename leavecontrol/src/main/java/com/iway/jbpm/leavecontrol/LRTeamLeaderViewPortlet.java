@@ -42,7 +42,7 @@ public class LRTeamLeaderViewPortlet extends GenericPortlet {
 
     @ProcessAction(name = "teamleaderReply")
     public void teamleaderReply(ActionRequest req, ActionResponse res) throws PortletException, IOException {
-        boolean approval = "true".equals(req.getParameter("approval"));
+        boolean approval = "APPROVE".equals(req.getParameter("approval"));
         long processInstanceID = Long.parseLong(req.getParameter("leaveRequestInstanceID"));
 
         KnowledgeEngine kEngine = Util.getServiceComponent(KnowledgeEngine.class);

@@ -30,7 +30,13 @@ public class LeaveRequestPortlet extends GenericPortlet {
             response.getWriter().write("Only authenticated user could access this portlet");
         } else {
             LRRepository lrService = Util.getServiceComponent(LRRepository.class);
-            List<LeaveRequest> lrs = lrService.getLeaveRequestsOfEmployee(remoteuser);
+            //List<LeaveRequest> lrs = lrService.getLeaveRequestsOfEmployee(remoteuser);
+            List<LeaveRequest> lrs = lrService.getLeaveRequests(new LRFilter() {
+                @Override
+                public boolean accept(LeaveRequest lr) {
+                    return remoteuser.equals(lr.username);
+                }
+            });
             request.setAttribute("lrs_of_employee", lrs);
             getPortletContext().getRequestDispatcher("/jsp/lrForm.jsp").include(request, response);
         }
