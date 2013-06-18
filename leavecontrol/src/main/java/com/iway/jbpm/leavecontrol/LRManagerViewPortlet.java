@@ -42,7 +42,7 @@ public class LRManagerViewPortlet extends GenericPortlet {
 
     @ProcessAction(name = "managerReply")
     public void managerReply(ActionRequest req, ActionResponse res) throws PortletException, IOException {
-        boolean approval = "true".equals(req.getParameter("approval"));
+        boolean approval = "APPROVE".equals(req.getParameter("approval"));
         long processInstanceID = Long.parseLong(req.getParameter("leaveRequestInstanceID"));
 
         KnowledgeEngine kEngine = Util.getServiceComponent(KnowledgeEngine.class);

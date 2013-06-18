@@ -56,6 +56,8 @@ public class KnowledgeEngine implements Startable {
 
     private final LRRepository lrService;
 
+    private StatefulKnowledgeSession ksession;
+
     public KnowledgeEngine(LRRepository _lrService) {
         String _resPath = PropertyManager.getProperty(IWAY_JBPM_DEMO_RESOURCE_LOCATION_PARAM);
         if (_resPath == null) {
@@ -71,6 +73,9 @@ public class KnowledgeEngine implements Startable {
 
     @Override
     public void start() {
+        ksession = knowledgeBase.newStatefulKnowledgeSession();
+        ksession.getWorkItemManager().registerWorkItemHandler("CreateLR", new LRCreateWorkItemHandler(lrService));
+        ksession.getWorkItemManager().registerWorkItemHandler("UpdateLR", new LRUpdateWorkItemHandler(lrService));
     }
 
     @Override
@@ -108,6 +113,9 @@ public class KnowledgeEngine implements Startable {
             try {
                 lock.lock();
                 knowledgeBase = kb;
+                ksession = knowledgeBase.newStatefulKnowledgeSession();
+                ksession.getWorkItemManager().registerWorkItemHandler("CreateLR", new LRCreateWorkItemHandler(lrService));
+                ksession.getWorkItemManager().registerWorkItemHandler("UpdateLR", new LRUpdateWorkItemHandler(lrService));
             } finally {
                 lock.unlock();
             }
@@ -182,16 +190,7 @@ public class KnowledgeEngine implements Startable {
     }
 
     private StatefulKnowledgeSession getStatefulSession() {
-        StatefulKnowledgeSession session = null;
-        try {
-            lock.lock();
-            session = knowledgeBase.newStatefulKnowledgeSession();
-            session.getWorkItemManager().registerWorkItemHandler("CreateLR", new LRCreateWorkItemHandler(lrService));
-            session.getWorkItemManager().registerWorkItemHandler("UpdateLR", new LRUpdateWorkItemHandler(lrService));
-        } finally {
-            lock.unlock();
-        }
-        return session;
+        return ksession;
     }
 
     private static ResourceType getResourceType(String filePath) {
