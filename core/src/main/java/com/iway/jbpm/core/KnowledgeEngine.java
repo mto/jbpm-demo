@@ -12,8 +12,6 @@ import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.StatelessKnowledgeSession;
 import org.drools.runtime.process.ProcessInstance;
-import org.drools.runtime.process.WorkItemHandler;
-import org.drools.runtime.process.WorkItemManager;
 import org.exoplatform.commons.utils.PropertyManager;
 import org.exoplatform.management.annotations.Impact;
 import org.exoplatform.management.annotations.ImpactType;
@@ -56,7 +54,9 @@ public class KnowledgeEngine implements Startable {
 
     private final String resPath;
 
-    public KnowledgeEngine(LRRepository lrService) {
+    private final LRRepository lrService;
+
+    public KnowledgeEngine(LRRepository _lrService) {
         String _resPath = PropertyManager.getProperty(IWAY_JBPM_DEMO_RESOURCE_LOCATION_PARAM);
         if (_resPath == null) {
             LOGGER.warn("Property " + IWAY_JBPM_DEMO_RESOURCE_LOCATION_PARAM + " is missing in gatein/conf/configuration.properties");
@@ -64,12 +64,9 @@ public class KnowledgeEngine implements Startable {
             URL url = cl.getResource(DEFAULT_PROCESS_DEFINITION_FILE);
             _resPath = url.getPath();
         }
+        lrService = _lrService;
         resPath = _resPath;
         knowledgeBase = buildKnowledgeBase(resPath);
-
-        WorkItemManager itemManager = getStatefulSession().getWorkItemManager();
-        itemManager.registerWorkItemHandler("CreateLR", new LRCreateWorkItemHandler(lrService));
-        itemManager.registerWorkItemHandler("UpdateLR", new LRUpdateWorkItemHandler(lrService));
     }
 
     @Override
@@ -125,6 +122,7 @@ public class KnowledgeEngine implements Startable {
         return session.startProcess(processID).getId();
     }
 
+    /*
     @Managed
     @ManagedDescription("Register item handler, the bridge between JBPM service tasks and external services")
     @Impact(ImpactType.WRITE)
@@ -140,10 +138,10 @@ public class KnowledgeEngine implements Startable {
         return message;
     }
 
-    public void registerWorkItemHandler(String workItemName, WorkItemHandler itemHandler)
-    {
+    public void registerWorkItemHandler(String workItemName, WorkItemHandler itemHandler) {
         getStatefulSession().getWorkItemManager().registerWorkItemHandler(workItemName, itemHandler);
     }
+    */
 
     public long executeProcess(String processID, Map<String, Object> params) {
         StatefulKnowledgeSession session = getStatefulSession();
@@ -160,8 +158,7 @@ public class KnowledgeEngine implements Startable {
         session.signalEvent(type, payload, processInstanceID);
     }
 
-    public Collection<ProcessInstance> getActiveProcessInstances()
-    {
+    public Collection<ProcessInstance> getActiveProcessInstances() {
         return getStatefulSession().getProcessInstances();
     }
 
@@ -177,6 +174,7 @@ public class KnowledgeEngine implements Startable {
         try {
             lock.lock();
             session = knowledgeBase.newStatelessKnowledgeSession();
+
         } finally {
             lock.unlock();
         }
@@ -188,6 +186,8 @@ public class KnowledgeEngine implements Startable {
         try {
             lock.lock();
             session = knowledgeBase.newStatefulKnowledgeSession();
+            session.getWorkItemManager().registerWorkItemHandler("CreateLR", new LRCreateWorkItemHandler(lrService));
+            session.getWorkItemManager().registerWorkItemHandler("UpdateLR", new LRUpdateWorkItemHandler(lrService));
         } finally {
             lock.unlock();
         }
